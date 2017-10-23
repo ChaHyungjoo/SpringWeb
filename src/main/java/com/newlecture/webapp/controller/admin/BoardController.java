@@ -124,15 +124,16 @@ public class BoardController {
 		String fileName = file.getOriginalFilename();
 		System.out.println(fileName);
 		
-		//String writerId = "newlec";
-		String writerId = principal.getName();
+		String writerId = "newlec";
+		//String writerId = principal.getName();
 		
 		System.out.println(notice.getTitle());
 		notice.setWriterId(writerId);
+		
 		//int row = noticeDao.insert(title, content, writerId);
 		int row = noticeDao.insert(notice);
+		//memberDao.pointUp(principal.getName());
 		
-		memberDao.pointUp(principal.getName());
 		
 		noticeFileDao.insert(new NoticeFile(null, fileName, nextId));
 		
