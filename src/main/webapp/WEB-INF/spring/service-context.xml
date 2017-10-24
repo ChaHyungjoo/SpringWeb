@@ -2,9 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
 
 	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -18,34 +22,34 @@
 	</bean>
 	
 	<!-- transactionManager를 사용하게 되면 여기서 가로챔 -->
-	<!-- Transaction을 처리하는 방법 1 -->
+	<!-- Transaction을 처리하는 방법 1 -> 4번 방법 Annotation에서 재료로 사용 -->
 	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
 	<!-- Transaction을 처리하는 방법 2 -->
-	<bean name="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+	<!-- <bean name="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
 		<property name="transactionManager" ref="transactionManager" />
-	</bean>
+	</bean> -->
 	
 	<!-- Transaction을 처리하는 방법 3 - AOP 이용하기 -->
-	<bean name="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+	<!-- <bean name="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
 			<property name="transactionManager" ref="transactionManager"></property>
-			<property name="transactionAttributes">	<!-- 어떤 함수에만 사용할지 필터링 -->
+			<property name="transactionAttributes">	어떤 함수에만 사용할지 필터링
 				<props>
-					<prop key="insert" />	<!-- insert 함수에 사용 -->
+					<prop key="insert" >PROPAGATION_REQUIRED</prop>	insert 함수에 사용
 				</props>
 			</property>	
-	</bean>
+	</bean> -->
 	
-	<bean class="org.springframework.aop.framework.ProxyFactoryBean">
+	<!-- <bean class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target" ref="noticeDao" />
 		<property name="interceptorNames">
 			<list>
-				<value></value>
+				<value>transactionInterceptor</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 	
 	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
 		<property name="dataSource" ref="dataSource" />
@@ -66,6 +70,13 @@
 	<bean name="noticeDao" class="com.newlecture.webapp.dao.spring.SpringNoticeDao" />
 	<bean class="com.newlecture.webapp.dao.spring.SpringMemberDao" />
 	<bean class="com.newlecture.webapp.dao.mybatis.MyBatisNoticeFileDao"/>
+	
+	
+	<!-- Service 객체들 -->
+	<bean class="com.newlecture.webapp.service.admin.BoardService" />
+	
+	
+	
 	<context:annotation-config />
 
 </beans>

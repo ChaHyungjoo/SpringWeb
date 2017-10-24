@@ -31,19 +31,23 @@ import com.newlecture.webapp.dao.NoticeFileDao;
 import com.newlecture.webapp.entity.Notice;
 import com.newlecture.webapp.entity.NoticeFile;
 import com.newlecture.webapp.entity.NoticeView;
+import com.newlecture.webapp.service.admin.BoardService;
 
 @Controller
 @RequestMapping("/admin/board/*")
 public class BoardController {
-
+	
 	@Autowired
+	private BoardService service;
+
+	/*@Autowired
 	private NoticeDao noticeDao;	//service-context에 bean 파일로 선언해줘야 사용가능
 	
 	@Autowired
 	private NoticeFileDao noticeFileDao;	//service-context에 bean 파일로 선언해줘야 사용가능
 	
 	@Autowired
-	private MemberDao memberDao;
+	private MemberDao memberDao;*/
 	
 	@RequestMapping("notice")
 	public String notice(
@@ -52,7 +56,7 @@ public class BoardController {
 			@RequestParam(value="q", defaultValue="") String query, 
 			Model model) {
 		
-		List<NoticeView> list = noticeDao.getList(page, field, query);
+		List<NoticeView> list = service.getNoticeList();
 		model.addAttribute("list", list);
 		
 		return "admin.board.notice.list";
@@ -61,9 +65,9 @@ public class BoardController {
 	@RequestMapping("notice/{id}")
 	public String noticeDetail(@PathVariable(value="id") String id, Model model) {
 		
-		model.addAttribute("n", noticeDao.get(id));
-		model.addAttribute("prev", noticeDao.getPrev(id));
-		model.addAttribute("next", noticeDao.getNext(id));
+		model.addAttribute("n", service.getNotice(id));
+		model.addAttribute("prev", service.getNotice(id));
+		model.addAttribute("next", service.getNoticeNext(id));
 		
 		return "admin.board.notice.detail";
 	}
@@ -87,7 +91,7 @@ public class BoardController {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 
-		String nextId = noticeDao.getNextId();
+		String nextId = service.getNextId();
 		
 		ServletContext ctx = request.getServletContext();
 		String path = ctx.getRealPath(
@@ -124,18 +128,18 @@ public class BoardController {
 		String fileName = file.getOriginalFilename();
 		System.out.println(fileName);
 		
-		String writerId = "newlec";
+		String writerId = "a";
 		//String writerId = principal.getName();
 		
 		System.out.println(notice.getTitle());
 		notice.setWriterId(writerId);
 		
 		//int row = noticeDao.insert(title, content, writerId);
-		int row = noticeDao.insert(notice);
+		int row = service.insertAndPointUp(notice);
 		//memberDao.pointUp(principal.getName());
 		
 		
-		noticeFileDao.insert(new NoticeFile(null, fileName, nextId));
+		service.insert(new NoticeFile(null, fileName, nextId));
 		
 		return "redirect:../notice";
 	}

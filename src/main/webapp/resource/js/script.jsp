@@ -587,6 +587,24 @@
 		var progressBar = document.querySelector("#ex3-upload #progress-bar");
 		progressBar.style.width = "0px";
 		
+		var fileViewer = document.querySelector("#ex3-upload ul");
+		
+		//파일목록 초기화
+		var xhr = new XMLHttpRequest();
+		
+		xhr.onload = function(e){
+			var files = JSON.parse(e.target.responseText);
+			
+			for(var i=0; i<files.length; i++){
+				var li = document.createElement("li");
+				li.textContent = files[i];
+				fileViewer.appendChild(li);
+			}
+		};
+		xhr.open("GET", "../../file-list");	
+		xhr.send();
+				
+		
 		submitButton.onclick = function(e){
 			
 			var event = new MouseEvent("click", {
@@ -613,11 +631,7 @@
 					progressBar.style.background = "aqua";
 				};
 				//loaded : x = total : 100
-				
-				xhr.onload = function(){
-					
-				}
-				
+								
 				xhr.onerror = function(e){
 					alert("예기치 못한 오류");
 				};
@@ -642,7 +656,7 @@
 
 	
 
-	<!-- Ajax로 파일 전송과 트리거 ------------------------------------------------------>
+	<!-- Ajax로 파일 전송과 트리거 그리고 파일목록뷰어------------------------------------------------------>
 	<div id="ex3-upload">
 		<input type="file" style="display: none;"/>
 		<span style="border: 1px solid #999; border-radius: 5px; background: pink; padding: 3px; cursor: pointer;">파일 선택</span>
@@ -675,7 +689,7 @@
 		
 		<div>
 			<ul>
-				<li></li>
+				<!-- <li></li> -->
 			</ul>
 		</div>
 				
