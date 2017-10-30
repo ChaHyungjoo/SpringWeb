@@ -87,7 +87,7 @@
 
 		var remove = function(e) {
 			//container.removeChild(e.target);
-			container.removeChild(this);
+			$(this).remove();
 		}
 		
 		var idx = 0;
@@ -131,14 +131,47 @@
 		
 		removeNodeButton.click(function() {
 			// 1. 내정된 노드를 지우기
-			if (container.hasChildNodes()) {
+			/* if (container.hasChildNodes()) {
 				container.removeChild(container.lastChild);
-			}
+			} */
+			
 			// 2. 선택된 노드를 지우기
-
+			//막내 찾기
+			//$("#node-container :last-child").remove();
+			//$("#node-container").children().last().remove();
+			
+			//jquery 형식으로 찾기
+			//$("#node-container img").eq(0).attr("src", "https://s-media-cache-ak0.pinimg.com/originals/6b/5a/8c/6b5a8cc63ce660cd4dd0bc7752f31a98.png");
+			//DOM 형식으로 찾기
+			//$("#node-container img").get(0).src="https://s-media-cache-ak0.pinimg.com/originals/6b/5a/8c/6b5a8cc63ce660cd4dd0bc7752f31a98.png";
+			//each로 순회하면서 img가 있을 때 마다 삭제
+			$("#node-container img").each(function(index){
+				$(this).remove();	//DOM 형식으로 존재
+			});
+			
 		});
 	});
 	
+	//!--노드 바꾸기 예제 -->
+	window.addEventListener("load", function() {
+	   var swapNodeButton = document.querySelector("#swap-node-button");
+	   var container = document.querySelector("#swap-node-container");   
+	   
+	   swapNodeButton.onclick = function() {
+	      var nodes = container.getElementsByTagName("img");
+	      
+	      var node1 = nodes[0];
+	      var node2 = nodes[1];
+	      var node3 = nodes[2];
+	      
+	      /* var node1 = container.firstElementChild;
+	      var node3 = container.lastElementChild; */
+	      //var oldNode = container.replaceChild(node1, node3);
+	      //container.insertBefore(node3, container.firstChild);
+	      var oldNode = container.replaceChild(node2, node3);
+	      container.insertBefore(node3, container.firstElementChild);
+	   };
+	});
 	
 	
 </script>
@@ -146,6 +179,13 @@
 </head>
 <body>
 
+	<!--노드 바꾸기 예제 -->
+	<input id="swap-node-button" type="button" value="노드 바꾸기" />
+	<div id="swap-node-container">
+		<img src="../images/answeris.png" /><img src="../images/w3c.png" /><img
+			src="../images/microsoft.png" />
+	</div>
+	<hr />
 
 	<!--텍스트 노드 추가 예제 -->
 	<input id="add-text-node-button" type="button" value="텍스트노드 추가" />
