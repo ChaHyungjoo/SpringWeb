@@ -175,7 +175,7 @@
 	      //container.insertBefore(node3, container.firstElementChild);
 	      
 	      //jQuery 기능을 이용한 코드
-	      /* var oldNode = node3.replaceWith(node2);
+	      /* var oldNode = node3.replaceWith(node2);	//old.replaceWith(new)
 	      node1.before(oldNode); */
 	      
 	      //jQuery 스러운 코드
@@ -214,8 +214,8 @@
 
 			if (e.target.nodeName == "INPUT") {
 
-				tr = e.target.parentNode.parentNode;
-
+				//tr = e.target.parentNode.parentNode;
+				tr = $(e.target).parent().parent();
 
 
 				//var oldNode = container.replaceChild(tr1, tr2);
@@ -241,27 +241,107 @@
 			if (tr == null)
 				return;
 
-			var container = tr.parentNode;
+			var container = tr.parent();
 
-			var bf = tr.previousElementSibling;
-			var af = tr.nextElementSibling;
+			//var bf = tr.previousElementSibling;
+			var bf = tr.prev();
+			//var af = tr.nextElementSibling;
+			var af = tr.next();
 
 			if (bf == null)
-				bf = container.firstElementChild;
-
-			container.replaceChild(tr, bf);
+				bf = container.children().first();
+				//bf = container.firstElementChild;
+			
+			//container.replaceChild(tr, bf);
+			bf.replaceWith(tr);
 
 			if (af == null)
-				container.appendChild(bf);
+				container.append(bf);
+				//container.appendChild(bf);
 			else
-				container.insertBefore(bf, af);
+				bf.insertBefore(af);
+				//container.insertBefore(bf, af);
 		});
 	});
-	
+
+
+	/* --- 엘리먼트의 기본 행위 막기 ------------------------------------------------- */
+	window.addEventListener("load", function() {
+		var titleText = $("form input[name]");
+		var submitButton = $("form input[type='submit']");
+		var cancelButton = $("form a");
+
+		submitButton.click(function(e) {
+			if (titleText.val() == "") {
+				alert("제목을 입력하세요.");
+				e.preventDefault();
+			}
+		});
+
+		cancelButton.click(function(e) {
+			if (titleText.val() != "") {
+				if (!confirm("작성중이던 입력을 취소하시겠습니까?"))
+					e.preventDefault();
+			}
+		});
+		
+	});
+
+
+	/* --- 노드복제 예제----------------------------------------------------------------- */
+	window.addEventListener("load", function() {
+		var cloneButton = $("#ex-clone input[value='단순복제']");
+		var tbody = $("#ex-clone tbody");
+
+		cloneButton.click(function(e) {
+			/* var tr = tbody.querySelector("tr");
+
+			var clone = tr.cloneNode(true);
+			tbody.appendChild(clone); */
+			
+			tbody.find("tr").clone(true).appendTo(tbody);
+			
+		});
+
+	});
 </script>
 
 </head>
 <body>
+
+	<!--노드복제 예제 -->
+	<div id="ex-clone">
+		<div>
+			<input type="button" value="단순복제" />
+		</div>
+		<div id="clone-container">
+			<table border="1">
+				<thead>
+					<tr>
+						<td></td>
+						<td>코드</td>
+						<td>제목</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input name="id" type="radio" value="1" /></td>
+						<td>1</td>
+						<td>아~ 괜히 하자고 했지?</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<hr />
+
+
+	<!--기본 행위 막기 예제 -->
+	<form>
+		<input type="text" name="title" /><br /> 
+		<input type="submit" value="전송" /><a href="">취소</a>
+	</form>
+	<hr />
 
 	<!--노드 바꾸기 예제 2 + 이벤트 심화 : 버블링과 캡처링 -->
 	<input id="move-up-button" type="button" value="위로 옮기기" />
