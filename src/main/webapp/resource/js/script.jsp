@@ -639,7 +639,7 @@
 				xhr.send(formData);
 				
 				
-				//alert(file.name);
+				alert(file.name);
 				/* for(var key in fileInput.files[0])
 					alert(key); */
 			};
