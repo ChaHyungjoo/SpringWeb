@@ -1,5 +1,7 @@
 package com.newlecture.webapp.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +38,14 @@ public class CustomerController {
 		return "customer.notice.list";
 	}
 	
+	//@RequestMapping(value="notice-ajax", produces="text/plain;charset=UTF-8")
 	@RequestMapping("notice-ajax")
 	@ResponseBody
 	public String noticeAjax(
 			@RequestParam(value="p", defaultValue="1") Integer page, 
 			@RequestParam(value="f", defaultValue="title") String field, 
 			@RequestParam(value="q", defaultValue="") String query, 
-			Model model) {
+			Model model) throws UnsupportedEncodingException {
 		
 		List<NoticeView> list = noticeDao.getList(page, field, query);
 		
@@ -60,12 +63,12 @@ public class CustomerController {
 		Gson gson = new Gson();
 		json = gson.toJson(list);
 		
-		try {
+		/*try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 		return json;

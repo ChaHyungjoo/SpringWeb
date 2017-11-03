@@ -382,12 +382,36 @@
 		
 
 		ajaxButton.click(function(e) {
+			//3. jQuery.get() 으로 문서를 요청한 방식
+			/* $.get("../../customer/notice-ajax", function(data){
+				var json = JSON.parse(data);
+				alert(json[0].writerName);
+			}); */
+			
+			//4. jQuery.get() 으로  jQuery스럽게 문서를 요청한 방식
+			/* $.ajaxSetup({
+				scriptCharset: "utf-8",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+			}); */
+			
+			$.getJSON("../../customer/notice-ajax")
+			.done(function(data){
+				alert(data[0].writerName);
+				console.log("공통 부분");
+			})
+			.fail(function(){
+				//console.log("");			
+			})
+			.always(function(){
+				console.log("공통 부분");			
+			});
+						
 			/* 2. 비동기형으로 문서를 요청한 방식 */
-			var xhr = new XMLHttpRequest();
-			/* xhr.onreadystatechange = function(e){
+			/* var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(e){
 			   if(xhr.readyState == 4)
 			      data = eval(xhr.responseText);
-			}; */
+			}
 			xhr.onload = function() {
 				//alert("tt");
 				data = JSON.parse(xhr.responseText);
@@ -402,7 +426,7 @@
 			// 1. ajax icon 추가
 			var img = document.createElement("img");
 			img.src = "../images/ajax-loader.gif";
-			container.appendChild(img);
+			container.appendChild(img); */
 
 			/* 1. 동기형으로 문서를 요청한 방식 */
 			/* var xhr = new XMLHttpRequest();
