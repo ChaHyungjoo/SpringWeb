@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
 	/* var x={};
 	x.name = "hj";
@@ -581,16 +581,16 @@
 	
 	
 	<!-- Ajax로 파일 전송과 트리거 ------------------------------------------------------>
-	window.addEventListener("load", function(){
-		var fileInput = document.querySelector("#ex3-upload input");
-		var submitButton = document.querySelector("#ex3-upload span");
-		var progressBar = document.querySelector("#ex3-upload #progress-bar");
-		progressBar.style.width = "0px";
+	$(function(){
+		var fileInput = $("#ex3-upload input");
+		var submitButton = $("#ex3-upload #aaa");
+		var progressBar = $("#ex3-upload #progress-bar");
+		//progressBar.style.width = "0px";
 		
 		var fileViewer = document.querySelector("#ex3-upload ul");
 		
 		//파일목록 초기화
-		var xhr = new XMLHttpRequest();
+		/* var xhr = new XMLHttpRequest();
 		
 		xhr.onload = function(e){
 			var files = JSON.parse(e.target.responseText);
@@ -602,19 +602,22 @@
 			}
 		};
 		xhr.open("GET", "../../file-list");	
-		xhr.send();
+		xhr.send(); */
 				
 		
-		submitButton.onclick = function(e){
-			
+		submitButton.click(function(e){
+			//alert("hi~");
 			var event = new MouseEvent("click", {
 				'view': window,
 				'bubbles': true,
 				'cancelable': true
 			});
 			
-			fileInput.dispatchEvent(event);
-			fileInput.onchange = function(){
+			//fileInput.dispatchEvent(event);
+			$(submitButton).on(event, function(){
+				alert("hi");
+			});
+			fileInput.change(function(){
 				var file = fileInput.files[0];
 				
 				var formData = new FormData();
@@ -623,13 +626,13 @@
 				
 				var xhr = new XMLHttpRequest();
 				
-				xhr.upload.onprogress = function(e){
+				/* xhr.upload.onprogress = function(e){
 					//console.log(Math.round(e.loaded*100/e.total) + "%");
 					var percentage = Math.round(e.loaded*100/e.total);
 					progressBar.textContent = percentage + "%";
 					progressBar.style.width = percentage + "px";
 					progressBar.style.background = "aqua";
-				};
+				}; */
 				//loaded : x = total : 100
 								
 				xhr.onerror = function(e){
@@ -642,9 +645,9 @@
 				alert(file.name);
 				/* for(var key in fileInput.files[0])
 					alert(key); */
-			};
+			});
 			
-		};
+		});
 	});
 	
 	
@@ -659,7 +662,7 @@
 	<!-- Ajax로 파일 전송과 트리거 그리고 파일목록뷰어------------------------------------------------------>
 	<div id="ex3-upload">
 		<input type="file" style="display: none;"/>
-		<span style="border: 1px solid #999; border-radius: 5px; background: pink; padding: 3px; cursor: pointer;">파일 선택</span>
+		<span id="aaa" style="border: 1px solid #999; border-radius: 5px; background: pink; padding: 3px; cursor: pointer;">파일 선택</span>
 		<span id="progress-bar" style="display: inline-block;" ></span>
 		
 		<%-- <form action="../../upload?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
