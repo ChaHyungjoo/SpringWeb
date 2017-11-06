@@ -69,6 +69,7 @@
 							<li>
 								<form action="${ctx}/logout" method="post">
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<security:authentication property="name"/>님
 									<input type="submit" value="로그아웃" />
 								</form>
 							
