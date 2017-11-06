@@ -606,7 +606,6 @@
 				
 		
 		submitButton.click(function(e){
-			//alert("hi~");
 			var event = new MouseEvent("click", {
 				'view': window,
 				'bubbles': true,
@@ -614,11 +613,14 @@
 			});
 			
 			//fileInput.dispatchEvent(event);
-			$(submitButton).on(event, function(){
+			/* $(submitButton).on(event, function(){
 				alert("hi");
-			});
+			}); */
+			fileInput.click();
 			fileInput.change(function(){
-				var file = fileInput.files[0];
+				//var file = fileInput.files[0];
+				var file = fileInput[0].files[0];
+				alert(file.name);
 				
 				var formData = new FormData();
 				formData.append("title", "test");
@@ -635,14 +637,15 @@
 				}; */
 				//loaded : x = total : 100
 								
-				xhr.onerror = function(e){
+				/* xhr.onerror = function(e){
 					alert("예기치 못한 오류");
-				};
+				}; */
+				
 				xhr.open("POST", "../../upload?${_csrf.parameterName}=${_csrf.token}", true);	
 				xhr.send(formData);
 				
 				
-				alert(file.name);
+				//alert(file.name);
 				/* for(var key in fileInput.files[0])
 					alert(key); */
 			});
