@@ -73,11 +73,17 @@
 			}); */
 			
 			//2. 기간(duration)을 두고 변화를 주는 방법
-			item.animate({
+			/* item.animate({
 				width: "200px"
 			}, 2000, function(){
 				alert("끝났당~");
-			});
+			}); */
+			item.css({
+				width: "200px",
+				opacity: "0.5"
+			})
+			
+			
 			
 		});
 		
@@ -85,6 +91,32 @@
 
 
 </script>
+
+<style type="text/css">
+	.item1 {
+		width: 100px;
+		height: 100px;
+		background: yellow;
+		/* transition: 1s; */
+		transition-duration: 500ms;
+		transition-delay: 1s;
+		transition-property: width, opacity;		/* width, opacity에만 한정해서 animation을 주고싶을때 */
+		transition-timing-function: cubic-bezier(0.295, 0, 0.270, 1);
+		
+		/* transition-duration:
+		transition-delay:
+		transition-property:
+		transition-timing-function: */
+	}
+
+/* 	.item1:hover {
+		width: 200px;
+		height: 200px;
+		opacity: 0.5;
+	} */
+
+</style>
+
 </head>
 <body>
 	<!-- 1. 너비를 변경하는 애니메이션 -->
@@ -92,7 +124,9 @@
 		<input type="button" value="너비늘리기" />	
 	</div>
 	<div id="ex1-box" style="width: 500px; height: 300px; background: gray">
-		<div class="item1" style="transform: rotate(45deg); width: 100px; height: 100px; background: yellow;">
+		<!-- <div class="item1" style="transform: rotate(45deg); width: 100px; height: 100px; background: yellow;"> -->
+		<!-- <div class="item1" style="transform: scale(1.5, 1.5); width: 100px; height: 100px; background: yellow;"> -->
+		<div class="item1" >
 		</div>
 	</div>
 	
