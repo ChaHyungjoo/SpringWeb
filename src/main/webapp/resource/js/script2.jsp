@@ -446,10 +446,17 @@
 	<!-- 기본 행위 막기 예제 ------------------------------------------------>
 	
 	window.addEventListener("load", function(){
-		
+		var test = document.querySelector("form input[id='pwd']");
+		var testButton = document.querySelector("form input[type='button']");
 		var titleText = document.querySelector("form input[name]");
 		var submitButton = document.querySelector("form input[type='submit']");
 		var cancelButton = document.querySelector("form a");
+		
+		testButton.onclick = function(e){
+			var aaa = test.value;
+			alert(aaa);
+		};
+		
 		
 		submitButton.onclick = function(e){
 			if(titleText.value == ""){
@@ -769,8 +776,9 @@
 	
 	<!-- 기본 행위 막기 예제 ------------------------------------------------------>
 	<form>
-		<input type="text" name="title" /><br />
+		<input id="pwd" type="text" name="title" /><br />
 		<input type="submit" value="전송 " />	
+		<input id="test" type="button" value="test " />	
 		<a href="">취소</a>
 	</form>
 	

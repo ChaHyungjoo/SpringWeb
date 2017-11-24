@@ -86,6 +86,7 @@ public class BoardController {
 			HttpServletRequest request,
 			Principal principal) throws IOException {
 		//Principal: 현재 사용자(로그인 된 사용자 id)를 가져옴
+		System.out.println(principal.getName());
 		
 		//날짜 얻는 방법
 		Calendar cal = Calendar.getInstance();

@@ -126,8 +126,19 @@
 	<div id="ex1-box" style="width: 500px; height: 300px; background: gray">
 		<!-- <div class="item1" style="transform: rotate(45deg); width: 100px; height: 100px; background: yellow;"> -->
 		<!-- <div class="item1" style="transform: scale(1.5, 1.5); width: 100px; height: 100px; background: yellow;"> -->
-		<div class="item1" >
+		<!-- <div class="item1" >
+		</div> -->
+		<div class="item" >
 		</div>
+		<div class="item" >
+		</div>
+		<div class="item" >
+		</div>
+		<div class="item" >
+		</div>
+		<div class="item" >
+		</div>
+		
 	</div>
 	
 	<hr />

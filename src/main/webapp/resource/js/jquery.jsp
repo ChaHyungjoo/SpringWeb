@@ -447,8 +447,8 @@
 	<!--Template 태그를 이용한 노드복제 and Ajax 요청 예제 -->
 	<div id="ex2-clone">
 		<div>
-			<input type="button" value="단순복제" /> <input type="button"
-				value="Ajax요청" />
+			<input type="button" value="단순복제" /> 
+			<input type="button" value="Ajax요청" />
 		</div>
 		<div id="clone-container">
 			<table border="1">
